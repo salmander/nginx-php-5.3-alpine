@@ -1,0 +1,10 @@
+[template]
+prefix = "/wodby/states/value/$WODBY_NAMESPACE/web-backend"
+src = "git_deploy_key.tmpl"
+dest = "/root/.ssh/id_rsa"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/git_private_key",
+]

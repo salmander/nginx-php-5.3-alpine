@@ -1,0 +1,18 @@
+[template]
+src = "temp_env.tmpl"
+dest = "/etc/wodby/app.d/drupal/7/wodby.settings.php"
+uid = 0
+gid = 0
+mode = "0644"
+keys = [
+  "/wodby/salt",
+  "/wodby/db/password",
+  "/wodby/namespace",
+  "/wodby/varnish/secret",
+  "/wodby/redis/password",
+  "/wodby/environment/type",
+  "/wodby/environment/name",
+  "/services/service/port/cache/adm",
+  "/services/service/host",
+  "/services/service/port/redis",
+]

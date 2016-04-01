@@ -1,0 +1,13 @@
+[template]
+src = "D8Settings.tmpl"
+dest = "/etc/wodby/app.d/drupal/8/wodby.settings.php"
+uid = 0
+gid = 0
+mode = "0644"
+keys = [
+  "/wodby/salt",
+  "/wodby/db/password",
+  "/wodby/namespace",
+  "/wodby/environment/type",
+  "/wodby/environment/name",
+]

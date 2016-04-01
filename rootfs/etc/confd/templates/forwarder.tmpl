@@ -1,0 +1,24 @@
+{
+  "network": {
+    "servers": [ "{{ getv "/ip" }}:5000" ],
+    "ssl ca": "/etc/wodby/logstash-forwarder.crt"
+  },
+  "files": [
+    {
+      "paths": [ "/var/log/nginx/access.1", "/var/log/nginx/access.2" ],
+      "fields": { "type": "nginx_access", "id": "{{ getenv "WODBY_NAMESPACE" }}" }
+    },
+    {
+      "paths": [ "/var/log/nginx/error.1", "/var/log/nginx/error.2" ],
+      "fields": { "type": "nginx_error", "id": "{{ getenv "WODBY_NAMESPACE" }}" }
+    },
+    {
+      "paths": [ "/var/log/php5-fpm-error.log" ],
+      "fields": { "type": "php_error", "id": "{{ getenv "WODBY_NAMESPACE" }}" }
+    },
+    {
+      "paths": [ "/var/log/php5-fpm-slow.log" ],
+      "fields": { "type": "php_slow", "id": "{{ getenv "WODBY_NAMESPACE" }}" }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/value/$WODBY_NAMESPACE/web-backend"
+src = "cron.tmpl"
+dest = "/etc/wodby/cron.env"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/cron",
+]
+reload_cmd = "/opt/bin/wodby_cron"

@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "debug_php.tmpl"
+dest = "/etc/wodby/debug_php.env"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/debug_php",
+]
+reload_cmd = "/opt/bin/wodby_debug_php"

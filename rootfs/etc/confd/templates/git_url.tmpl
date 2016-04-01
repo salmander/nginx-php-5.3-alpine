@@ -1,0 +1,2 @@
+{{ range $key, $value := json (getv "/git_url") }}{{ $key }}="{{ $value }}"
+{{ end }}

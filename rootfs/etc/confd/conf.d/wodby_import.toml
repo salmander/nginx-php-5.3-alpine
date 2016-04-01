@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "wodby_import.tmpl"
+dest = "/etc/wodby/wodby_import.env"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/import",
+]
+reload_cmd = "/opt/bin/wodby_import"

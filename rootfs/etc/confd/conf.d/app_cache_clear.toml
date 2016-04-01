@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "app_cache_clear.tmpl"
+dest = "/etc/wodby/app_cache_clear"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/app_cache_clear",
+]
+reload_cmd = "/opt/bin/app_cache_clear"

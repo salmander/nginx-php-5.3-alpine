@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "migrate.tmpl"
+dest = "/etc/wodby/migrate"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/migrate",
+]
+reload_cmd = "/opt/bin/migrate"

@@ -1,0 +1,3 @@
+{{ range $key, $value := json (getv "/backup") }}
+{{ $key }}="{{ $value }}"
+{{ end }}

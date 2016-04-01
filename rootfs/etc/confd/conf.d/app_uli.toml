@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "app_uli.tmpl"
+dest = "/etc/wodby/app_uli.env"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/uli",
+]
+reload_cmd = "/opt/bin/app_uli"

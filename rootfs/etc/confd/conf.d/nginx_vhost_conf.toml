@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/value/$WODBY_NAMESPACE/web-backend"
+src = "nginx_vhost_conf.tmpl"
+dest = "/etc/nginx/conf.d/vhost.conf"
+uid = 0
+gid = 0
+mode = "0644"
+keys = [
+  "/app_name",
+]
+reload_cmd = "/usr/sbin/nginx -s reload"

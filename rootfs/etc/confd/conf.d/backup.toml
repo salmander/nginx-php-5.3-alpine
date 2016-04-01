@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/states/execute/$WODBY_NAMESPACE/web-backend"
+src = "backup.tmpl"
+dest = "/etc/wodby/backup"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/backup",
+]
+reload_cmd = "/opt/bin/backup"

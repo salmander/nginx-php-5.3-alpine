@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/actions/$WODBY_NAMESPACE/web-backend/app"
+src = "app_config_revert.tmpl"
+dest = "/opt/wodby/actions/actions.d/app_config_revert.json"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/revert",
+]
+reload_cmd = "/opt/wodby/actions/app/revert/run"

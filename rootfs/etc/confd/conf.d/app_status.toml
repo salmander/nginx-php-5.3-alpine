@@ -1,0 +1,11 @@
+[template]
+prefix = "/wodby/actions/$WODBY_NAMESPACE/web-backend/app"
+src = "app_status.tmpl"
+dest = "/opt/wodby/actions/actions.d/app_status.json"
+uid = 0
+gid = 0
+mode = "0600"
+keys = [
+  "/status",
+]
+reload_cmd = "/opt/wodby/actions/app/status/run"
