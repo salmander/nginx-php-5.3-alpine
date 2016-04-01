@@ -14,6 +14,7 @@ RUN export NGX_VER="1.9.3" && \
     export WALTER_VER="1.3.0" && \
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
+    mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \ 
     apk add --update sqlite-dev unixodbc-dev libxml2-dev openssl-dev bzip2-dev curl-dev jpeg-dev libpng-dev libxpm-dev freetype-dev gettext-dev gmp-dev imap-dev krb5-dev icu-dev openldap-dev libmcrypt-dev freetds-dev postgresql-dev enchant-dev aspell-dev readline-dev libedit-dev net-snmp-dev tidyhtml-dev@testing libxslt-dev db-dev gdbm-dev build-base autoconf libtool && \
     mkdir -p /usr/include/freetype2/freetype && \
