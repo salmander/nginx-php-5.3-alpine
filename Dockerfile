@@ -75,8 +75,25 @@ RUN export NGX_VER="1.9.3" && \
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
     git config --global user.name "Administrator" && git config --global user.email "admin@wodby.com" && git config --global push.default current && \
-    touch /var/log/php5-fpm-error.log && chown wodby:wodby /var/log/php5-fpm-error.log && \
-    #mkdir -p /opt/wodby/bin && mkdir -p /opt/wodby/actions/actions.d && \
+
+    # Configure php.ini
+    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
+    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php/php.ini && \
+    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php/php.ini && \
+    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
+    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
+    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
+    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
+    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
+
+    # Configure php log dir
+    mkdir /var/log/php && \
+    touch /var/log/php/error.log && \
+    touch /var/log/php/fpm-error.log && \
+    touch /var/log/php/fpm-slow.log && \
+    chown -R wodby:wodby /var/log/php && \
+
+    # Clear apk cache
     rm -rf /var/cache/apk/* /tmp/* /usr/bin/su
 
 COPY rootfs /
