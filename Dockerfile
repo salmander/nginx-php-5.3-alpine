@@ -1,4 +1,4 @@
-FROM wodby/php-actions-alpine:v1.0.4
+FROM wodby/php-actions-alpine:dev
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export NGX_VER="1.9.3" && \
@@ -18,8 +18,6 @@ RUN export NGX_VER="1.9.3" && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \ 
     apk add --update sqlite-dev unixodbc-dev libxml2-dev openssl-dev bzip2-dev curl-dev jpeg-dev libpng-dev libxpm-dev freetype-dev gettext-dev gmp-dev imap-dev krb5-dev icu-dev openldap-dev libmcrypt-dev freetds-dev postgresql-dev enchant-dev aspell-dev readline-dev libedit-dev net-snmp-dev tidyhtml-dev@testing libxslt-dev db-dev gdbm-dev build-base autoconf libtool && \
     mkdir -p /usr/include/freetype2/freetype && \
-    #ln -s /usr/include/freetype2/freetype.h /usr/include/freetype2/freetype/freetype.h && \
-# https://github.com/htacg/tidy-html5/issues/235
     cp /usr/include/tidybuffio.h /usr/include/buffio.h && \
     wget -qO- http://php.net/get/php-${PHP_VER}.tar.gz/from/this/mirror | tar xz -C /tmp && \
     cd /tmp/php-${PHP_VER} && \
@@ -77,14 +75,15 @@ RUN export NGX_VER="1.9.3" && \
     git config --global user.name "Administrator" && git config --global user.email "admin@wodby.com" && git config --global push.default current && \
 
     # Configure php.ini
-#    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
-#    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php/php.ini && \
-#    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php/php.ini && \
-#    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
-#    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
-#    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
-#    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
-#    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
+    # Base file https://github.com/php/php-src/blob/PHP-5.3.29/php.ini-production
+    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
+    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php/php.ini && \
+    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php/php.ini && \
+    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
+    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
+    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
+    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
+    echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
 
     # Configure php log dir
     mkdir /var/log/php && \
