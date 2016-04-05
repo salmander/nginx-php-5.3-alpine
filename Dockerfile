@@ -38,6 +38,7 @@ RUN export NGX_VER="1.9.3" && \
         net-snmp-dev \
         tidyhtml-dev@testing \
         libxslt-dev \
+        imagemagick-dev \
         db-dev \
         gdbm-dev \
         build-base \
@@ -133,6 +134,7 @@ RUN export NGX_VER="1.9.3" && \
         --with-pear \
         --with-pic \
         --with-libdir=lib \
+        --with-iconv=shared \
         --without-db1 \
         --without-db2 \
         --without-db3 \
@@ -140,6 +142,7 @@ RUN export NGX_VER="1.9.3" && \
         --without-qdbm \
         --without-pdo_sqlite \
         --without-sqlite \
+        --without-sqlite3 \
         --without-apache && \
 
     # Make and install PHP
@@ -178,7 +181,6 @@ RUN export NGX_VER="1.9.3" && \
     echo 'extension=pdo_mysql.so' > /etc/php/conf.d/pdo_mysql.ini && \
     echo 'extension=redis.so' > /etc/php/conf.d/redis.ini && \
     echo 'extension=sockets.so' > /etc/php/conf.d/sockets.ini && \
-    echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
     echo 'extension=zip.so' > /etc/php/conf.d/zip.ini && \
     echo 'extension=zlib.so' > /etc/php/conf.d/zlib.ini && \
     echo 'extension=xml.so' > /etc/php/conf.d/xml.ini && \
@@ -186,6 +188,8 @@ RUN export NGX_VER="1.9.3" && \
     echo 'extension=phar.so' > /etc/php/conf.d/phar.ini && \
     echo 'extension=openssl.so' > /etc/php/conf.d/openssl.ini && \
     echo 'extension=posix.so' > /etc/php/conf.d/posix.ini && \
+    echo 'extension=iconv.so' > /etc/php/conf.d/iconv.ini && \
+    echo 'extension=imap.so' > /etc/php/conf.d/imap.ini && \
 
     # Configure php log dir
     mkdir /var/log/php && \
@@ -200,6 +204,12 @@ RUN export NGX_VER="1.9.3" && \
     pecl install xdebug-2.2.7 && \
     pecl install uploadprogress && \
     pecl install redis && \
+    echo '\n' | pecl install imagick-3.3.0 && \
+
+    # Enable PHP extensions (OPcache and Xdebug ini are overrided in rootfs)
+    echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
+    echo 'extension=redis.so' > /etc/php/conf.d/redis.ini && \
+    echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
 
     # Purge dev APK packages
     apk del --purge *-dev build-base autoconf libtool && \
@@ -240,6 +250,7 @@ RUN export NGX_VER="1.9.3" && \
         libbz2 \
         libssl1.0 \
         libcrypto1.0 \
+        imagemagick \
         gzip && \
 
     # Replace sendmail by msmtp
