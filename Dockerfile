@@ -153,6 +153,7 @@ RUN export NGX_VER="1.9.3" && \
     # Minize compiled php bins and create symlink
     strip /usr/bin/php /usr/sbin/php-fpm /usr/lib/php/20090626/* && \
     ln -sf /usr/sbin/php-fpm /usr/bin/php-fpm && \
+    ln -sfn /usr/lib/php/20090626 /usr/lib/php/modules && \
 
     # Copy default php.ini and configure it
     cp php.ini-production /etc/php/php.ini && \
@@ -162,6 +163,7 @@ RUN export NGX_VER="1.9.3" && \
     sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
     sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
     sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
+    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
     echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
 
     # Configure PHP extensions
@@ -205,11 +207,13 @@ RUN export NGX_VER="1.9.3" && \
     pecl install uploadprogress && \
     pecl install redis && \
     echo '\n' | pecl install imagick-3.3.0 && \
+    echo '\n' | pecl install memcache && \
 
     # Enable PHP extensions (OPcache and Xdebug ini are overrided in rootfs)
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
     echo 'extension=redis.so' > /etc/php/conf.d/redis.ini && \
     echo 'extension=imagick.so' > /etc/php/conf.d/imagick.ini && \
+    echo 'extension=memcache.so' > /etc/php/conf.d/memcache.ini && \
 
     # Purge dev APK packages
     apk del --purge *-dev build-base autoconf libtool && \
