@@ -150,10 +150,9 @@ RUN export NGX_VER="1.9.3" && \
     make CC='gcc' CFLAGS='-Os -fomit-frame-pointer -g' LDFLAGS='-Wl,--as-needed' CPPFLAGS='-Os -fomit-frame-pointer' CXXFLAGS='-Os -fomit-frame-pointer -g' && \
     make install && \
 
-    # Create symlinks
+    # Minize compiled php bins and create symlink
     strip /usr/bin/php /usr/sbin/php-fpm /usr/lib/php/20090626/* && \
     ln -sf /usr/sbin/php-fpm /usr/bin/php-fpm && \
-    ln -sfn /usr/lib/php/20090626 /usr/lib/php/modules && \
 
     # Copy default php.ini and configure it
     cp php.ini-production /etc/php/php.ini && \
@@ -163,7 +162,6 @@ RUN export NGX_VER="1.9.3" && \
     sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
     sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
     sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
-    echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
     echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
 
     # Configure PHP extensions
@@ -247,6 +245,8 @@ RUN export NGX_VER="1.9.3" && \
         libjpeg-turbo \
         libpng \
         curl \
+        imap \
+        c-client \
         libltdl \
         libmcrypt \
         libbz2 \
@@ -263,7 +263,7 @@ RUN export NGX_VER="1.9.3" && \
     git config --global user.email "admin@wodby.com" && \
     git config --global push.default current && \
 
-    # Install Composer
+    # Install composer, drush and wp-cli
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
     cd /usr/local/src/drush && \
@@ -271,8 +271,6 @@ RUN export NGX_VER="1.9.3" && \
     ln -sf /usr/local/src/drush/drush /usr/bin/drush && \
     composer install && rm -rf ./.git && \
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
-
-    # Install wp-cli for WordPress
     ln -sf /usr/local/src/wp-cli/bin/wp /usr/bin/wp && \
 
     # Install Walter tool
