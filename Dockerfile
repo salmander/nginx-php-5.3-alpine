@@ -267,7 +267,7 @@ RUN export NGX_VER="1.9.3" && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     git clone https://github.com/drush-ops/drush.git /usr/local/src/drush && \
     cd /usr/local/src/drush && \
-    git checkout 7.1.0 && \
+    git checkout 7.2.0 && \
     ln -sf /usr/local/src/drush/drush /usr/bin/drush && \
     composer install && rm -rf ./.git && \
     composer create-project wp-cli/wp-cli /usr/local/src/wp-cli --no-dev && \
