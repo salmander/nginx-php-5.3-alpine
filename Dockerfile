@@ -225,7 +225,6 @@ RUN export NGX_VER="1.9.3" && \
     apk add --update \
         git \
         sed \
-        nmap-ncat \
         grep \
         wget \
         curl \
