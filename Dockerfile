@@ -224,6 +224,7 @@ RUN export NGX_VER="1.9.3" && \
     # Install APK packaged
     apk add --update \
         git \
+        tar \
         sed \
         grep \
         wget \
