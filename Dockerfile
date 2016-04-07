@@ -110,6 +110,7 @@ RUN export NGX_VER="1.9.3" && \
         --with-zlib=shared \
         --with-openssl=shared \
         --with-kerberos \
+        --with-mhash \
         --with-imap=shared \
         --with-imap-ssl=shared \
         --with-ldap=shared \
