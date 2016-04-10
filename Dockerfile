@@ -204,6 +204,7 @@ RUN export NGX_VER="1.9.3" && \
     chown -R wodby:wodby /var/log/php && \
 
     # Install PHP extensions through Pecl
+    sed -ie 's/-n//g' `which pecl` && \
     pecl install ZendOpcache && \
     pecl install xdebug-2.2.7 && \
     pecl install uploadprogress && \
