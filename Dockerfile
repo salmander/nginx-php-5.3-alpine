@@ -43,7 +43,8 @@ RUN export NGX_VER="1.9.3" && \
         gdbm-dev \
         build-base \
         autoconf \
-        libtool && \
+        libtool \
+        && \
 
     # Fix tidybuffio issue
     mkdir -p /usr/include/freetype2/freetype && \
@@ -145,7 +146,8 @@ RUN export NGX_VER="1.9.3" && \
         --without-pdo_sqlite \
         --without-sqlite \
         --without-sqlite3 \
-        --without-apache && \
+        --without-apache \
+        && \
 
     # Make and install PHP
     make CC='gcc' CFLAGS='-Os -fomit-frame-pointer -g' LDFLAGS='-Wl,--as-needed' CPPFLAGS='-Os -fomit-frame-pointer' CXXFLAGS='-Os -fomit-frame-pointer -g' && \
@@ -202,7 +204,6 @@ RUN export NGX_VER="1.9.3" && \
     chown -R wodby:wodby /var/log/php && \
 
     # Install PHP extensions through Pecl
-    sed -ie 's/-n//g' `which pecl` && \
     pecl install ZendOpcache && \
     pecl install xdebug-2.2.7 && \
     pecl install uploadprogress && \
@@ -222,43 +223,50 @@ RUN export NGX_VER="1.9.3" && \
     # Cleanup after PHP build
     cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \
 
-    # Install APK packaged
+    # Install common packages
     apk add --update \
         git \
-        tar \
-        sed \
+        nano \
         grep \
-        wget \
+        sed \
         curl \
-        pwgen \
+        wget \
+        tar \
+        gzip \
+        pcre \
+        perl \
         openssh \
-        rsync \
-        msmtp \
         patch \
         patchutils \
-        inotify-tools \
-        mariadb-client \
-        krb5-libs \
-        redis \
-        nano \
-        bash \
         diffutils \
+        msmtp \
+        inotify-tools \
+        && \
+
+    # Install PHP specific packages
+    apk add --update \
+        mariadb-client \
+        imap \
+        redis \
+        imagemagick \
+        && \
+
+    # Install any libraries and tools
+    apk add --update \
+        krb5-libs \
         zlib \
+        c-client \
         libxml2 \
         readline \
         freetype \
         libjpeg-turbo \
         libpng \
-        curl \
-        imap \
-        c-client \
         libltdl \
         libmcrypt \
         libbz2 \
         libssl1.0 \
         libcrypto1.0 \
-        imagemagick \
-        gzip && \
+        && \
 
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
@@ -283,7 +291,10 @@ RUN export NGX_VER="1.9.3" && \
     mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \
 
+    # Fix permissions
+    chmod 755 /root && \
+
     # Final cleanup
-    rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/bin/su
+    rm -rf /var/cache/apk/* /tmp/* /usr/share/man
 
 COPY rootfs /
