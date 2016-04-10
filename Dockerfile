@@ -270,7 +270,7 @@ RUN export NGX_VER="1.9.3" && \
         && \
 
     # Remove redis binaries and config
-    rm -f /usr/bin/redis-* && /etc/redis.conf && \
+    rm -f /usr/bin/redis-* /etc/redis.conf && \
 
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
