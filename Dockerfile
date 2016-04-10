@@ -269,6 +269,9 @@ RUN export NGX_VER="1.9.3" && \
         libcrypto1.0 \
         && \
 
+    # Remove redis binaries and config
+    rm -f /usr/bin/redis-* && /etc/redis.conf && \
+
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
 
