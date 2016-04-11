@@ -1,13 +1,7 @@
 FROM wodby/php-actions-alpine:dev
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export NGX_VER="1.9.3" && \
-    export NGX_UP_VER="0.9.0" && \
-    export NGX_LUA_VER="0.9.16" && \
-    export NGX_NDK_VER="0.2.19" && \
-    export NGX_NXS_VER="0.54rc3" && \
-    export LUAJIT_LIB="/usr/lib/" && \
-    export LUAJIT_INC="/usr/include/luajit-2.0/" && \
+RUN \
     export PHP_VER="5.3.29" && \
     export WCLI_VER="0.1" && \
     export WALTER_VER="1.3.0" && \
