@@ -263,8 +263,15 @@ RUN \
         libcrypto1.0 \
         && \
 
-    # Remove redis binaries and config
-    rm -f /usr/bin/redis-* /etc/redis.conf && \
+    # Remove Redis binaries and config
+    rm -f \
+        /usr/bin/redis-benchmark \
+        /usr/bin/redis-check-aof \
+        /usr/bin/redis-check-dump \
+        /usr/bin/redis-sentinel \
+        /usr/bin/redis-server \
+        /etc/redis.conf \
+        && \
 
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
