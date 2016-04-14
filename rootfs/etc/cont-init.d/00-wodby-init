@@ -14,7 +14,7 @@ fi
 if [ ! -d /var/run/wodby ]; then
     mkdir -p /var/run/wodby
 fi
-printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { print "export "$1"="$2 } }' > /var/run/wodby/env
+printenv | xargs -I{} echo {} | awk 'BEGIN { FS = "=" }; { if ($1 != "HOME") { print "export "$1"="$2"" } }' > /var/run/wodby/env
 chmod +x /var/run/wodby/env
 
 # Ensure needed dirs and files are exists
@@ -61,3 +61,11 @@ if [ ! -d $WODBY_HOME/.wodby/locks ]; then
     mkdir -p $WODBY_HOME/.wodby/locks
     chown -R $WODBY_USER:$WODBY_GROUP $WODBY_HOME/.wodby
 fi
+
+# Replace env vars in confd templates
+sed -i -e 's@${WODBY_NAMESPACE}@'"${WODBY_NAMESPACE}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_USER}@'"${WODBY_USER}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_GUID}@'"${WODBY_GUID}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_CONF}@'"${WODBY_CONF}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_APP_TYPE}@'"${WODBY_APP_TYPE}"'@' /etc/confd/conf.d/*.toml
+sed -i -e 's@${WODBY_APP_VERSION}@'"${WODBY_APP_VERSION}"'@' /etc/confd/conf.d/*.toml
