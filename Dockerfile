@@ -259,6 +259,13 @@ RUN export NGX_VER="1.9.3" && \
         imagemagick \
         gzip && \
 
+    # Quick fix.
+    apk add --update \
+        nmap-ncat \
+        busybox-suid \
+        pwgen \
+        && \
+
     # Replace sendmail by msmtp
     ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
 
