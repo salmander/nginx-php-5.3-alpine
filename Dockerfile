@@ -11,6 +11,7 @@ RUN export NGX_VER="1.9.3" && \
     export PHP_VER="5.3.29" && \
     export WCLI_VER="0.1" && \
     export WALTER_VER="1.3.0" && \
+    export GO_AWS_S3_VER="v1.0.0" && \
 
     # Install dev packages
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
@@ -288,6 +289,10 @@ RUN export NGX_VER="1.9.3" && \
     wget -qO- https://github.com/walter-cd/walter/releases/download/v${WALTER_VER}/walter_${WALTER_VER}_linux_amd64.tar.gz | tar xz -C /tmp/ && \
     mkdir /opt/wodby/bin && \
     cp /tmp/walter_linux_amd64/walter /opt/wodby/bin && \
+
+    # Install go-aws-s3
+    wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
+    cp /tmp/go-aws-s3 /opt/wodby/bin && \
 
     # Final cleanup
     rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/bin/su
