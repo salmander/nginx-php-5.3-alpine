@@ -5,7 +5,7 @@ RUN \
     export PHP_VER="5.3.29" && \
     export WCLI_VER="0.1" && \
     export WALTER_VER="1.3.0" && \
-    export GO_AWS_S3_VER="0.0.0" && \
+    export GO_AWS_S3_VER="v1.0.0" && \
 
     # Install dev packages
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
