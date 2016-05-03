@@ -192,6 +192,7 @@ RUN export NGX_VER="1.9.3" && \
     echo 'extension=posix.so' > /etc/php/conf.d/posix.ini && \
     echo 'extension=iconv.so' > /etc/php/conf.d/iconv.ini && \
     echo 'extension=imap.so' > /etc/php/conf.d/imap.ini && \
+    echo 'extension=soap.so' > /etc/php/conf.d/soap.ini && \
 
     # Configure php log dir
     mkdir /var/log/php && \
