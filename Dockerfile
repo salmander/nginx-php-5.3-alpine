@@ -1,4 +1,4 @@
-FROM wodby/php-actions-alpine:v1.0.16
+FROM wodby/php-actions-alpine:v1.0.17
 MAINTAINER Wodby <hello@wodby.com>
 
 RUN export NGX_VER="1.9.3" && \
@@ -221,7 +221,7 @@ RUN export NGX_VER="1.9.3" && \
     apk del --purge *-dev build-base autoconf libtool && \
 
     # Cleanup after PHP build
-    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \
+    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/modules/*.a && \
 
     # Install APK packaged
     apk add --update \
@@ -237,7 +237,6 @@ RUN export NGX_VER="1.9.3" && \
         msmtp \
         patch \
         patchutils \
-        inotify-tools \
         mariadb-client \
         krb5-libs \
         redis \
