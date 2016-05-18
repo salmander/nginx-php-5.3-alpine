@@ -1,7 +1,8 @@
-FROM wodby/php-actions-alpine:v1.0.18
+FROM wodby/nginx-alpine:v1.0.4
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export NGX_VER="1.9.3" && \
+RUN export PHP_ACTIONS_VER="master" && \
+    export NGX_VER="1.9.3" && \
     export NGX_UP_VER="0.9.0" && \
     export NGX_LUA_VER="0.9.16" && \
     export NGX_NDK_VER="0.2.19" && \
@@ -260,11 +261,21 @@ RUN export NGX_VER="1.9.3" && \
         imagemagick \
         gzip && \
 
-    # Quick fix.
-    apk add --update \
-        nmap-ncat \
-        busybox-suid \
-        pwgen \
+    # Add PHP actions
+    cd /tmp && \
+    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
+    git checkout $PHP_ACTIONS_VER && \
+    rsync -av rootfs/ / && \
+
+    # Remove Redis binaries and config
+    rm -f \
+        /usr/bin/redis-benchmark \
+        /usr/bin/redis-check-aof \
+        /usr/bin/redis-check-dump \
+        /usr/bin/redis-sentinel \
+        /usr/bin/redis-server \
+        /etc/redis.conf \
         && \
 
     # Replace sendmail by msmtp
