@@ -1,7 +1,14 @@
-FROM wodby/php-actions-alpine:dev
+FROM wodby/nginx-alpine:v1.0.4
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN \
+RUN export PHP_ACTIONS_VER="master" && \
+    export NGX_VER="1.9.3" && \
+    export NGX_UP_VER="0.9.0" && \
+    export NGX_LUA_VER="0.9.16" && \
+    export NGX_NDK_VER="0.2.19" && \
+    export NGX_NXS_VER="0.54rc3" && \
+    export LUAJIT_LIB="/usr/lib/" && \
+    export LUAJIT_INC="/usr/include/luajit-2.0/" && \
     export PHP_VER="5.3.29" && \
     export WCLI_VER="0.1" && \
     export WALTER_VER="1.3.0" && \
@@ -38,8 +45,7 @@ RUN \
         gdbm-dev \
         build-base \
         autoconf \
-        libtool \
-        && \
+        libtool && \
 
     # Fix tidybuffio issue
     mkdir -p /usr/include/freetype2/freetype && \
@@ -106,7 +112,6 @@ RUN \
         --with-zlib=shared \
         --with-openssl=shared \
         --with-kerberos \
-        --with-mhash \
         --with-imap=shared \
         --with-imap-ssl=shared \
         --with-ldap=shared \
@@ -141,8 +146,7 @@ RUN \
         --without-pdo_sqlite \
         --without-sqlite \
         --without-sqlite3 \
-        --without-apache \
-        && \
+        --without-apache && \
 
     # Make and install PHP
     make CC='gcc' CFLAGS='-Os -fomit-frame-pointer -g' LDFLAGS='-Wl,--as-needed' CPPFLAGS='-Os -fomit-frame-pointer' CXXFLAGS='-Os -fomit-frame-pointer -g' && \
@@ -190,6 +194,7 @@ RUN \
     echo 'extension=posix.so' > /etc/php/conf.d/posix.ini && \
     echo 'extension=iconv.so' > /etc/php/conf.d/iconv.ini && \
     echo 'extension=imap.so' > /etc/php/conf.d/imap.ini && \
+    echo 'extension=soap.so' > /etc/php/conf.d/soap.ini && \
 
     # Configure php log dir
     mkdir /var/log/php && \
@@ -217,52 +222,51 @@ RUN \
     apk del --purge *-dev build-base autoconf libtool && \
 
     # Cleanup after PHP build
-    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/20090626/*.a && \
+    cd / && rm -rf /usr/include/php /usr/lib/php/build /usr/lib/php/modules/*.a && \
 
-    # Install common packages
+    # Install APK packaged
     apk add --update \
         git \
-        nano \
-        grep \
-        sed \
-        curl \
-        wget \
         tar \
-        gzip \
-        pcre \
-        perl \
+        sed \
+        grep \
+        wget \
+        curl \
+        pwgen \
         openssh \
+        rsync \
+        msmtp \
         patch \
         patchutils \
-        diffutils \
-        msmtp \
-        inotify-tools \
-        && \
-
-    # Install PHP specific packages
-    apk add --update \
         mariadb-client \
-        imap \
-        redis \
-        imagemagick \
-        && \
-
-    # Install any libraries and tools
-    apk add --update \
         krb5-libs \
+        redis \
+        nano \
+        bash \
+        diffutils \
         zlib \
-        c-client \
         libxml2 \
         readline \
         freetype \
         libjpeg-turbo \
         libpng \
+        curl \
+        imap \
+        c-client \
         libltdl \
         libmcrypt \
         libbz2 \
         libssl1.0 \
         libcrypto1.0 \
-        && \
+        imagemagick \
+        gzip && \
+
+    # Add PHP actions
+    cd /tmp && \
+    git clone https://github.com/Wodby/php-actions-alpine.git && \
+    cd php-actions-alpine && \
+    git checkout $PHP_ACTIONS_VER && \
+    rsync -av rootfs/ / && \
 
     # Remove Redis binaries and config
     rm -f \
@@ -301,10 +305,7 @@ RUN \
     wget -qO- https://s3.amazonaws.com/wodby-releases/go-aws-s3/${GO_AWS_S3_VER}/go-aws-s3.tar.gz | tar xz -C /tmp/ && \
     cp /tmp/go-aws-s3 /opt/wodby/bin && \
 
-    # Fix permissions
-    chmod 755 /root && \
-
     # Final cleanup
-    rm -rf /var/cache/apk/* /tmp/* /usr/share/man
+    rm -rf /var/cache/apk/* /tmp/* /usr/share/man /usr/bin/su
 
 COPY rootfs /
