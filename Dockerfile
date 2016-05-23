@@ -1,7 +1,7 @@
 FROM wodby/nginx-alpine:v1.0.4
 MAINTAINER Wodby <hello@wodby.com>
 
-RUN export PHP_ACTIONS_VER="develop" && \
+RUN export PHP_ACTIONS_VER="v1.1.1" && \
     export NGX_VER="1.9.3" && \
     export NGX_UP_VER="0.9.0" && \
     export NGX_LUA_VER="0.9.16" && \
