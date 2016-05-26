@@ -235,7 +235,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         pwgen \
         openssh \
         rsync \
-        msmtp \
+        postfix \
         patch \
         patchutils \
         mariadb-client \
@@ -277,9 +277,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         /usr/bin/redis-server \
         /etc/redis.conf \
         && \
-
-    # Replace sendmail by msmtp
-    ln -sf /usr/bin/msmtp /usr/sbin/sendmail && \
 
     # Define Git global config
     git config --global user.name "Administrator" && \
