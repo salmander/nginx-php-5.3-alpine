@@ -210,7 +210,7 @@ RUN export PHP_ACTIONS_VER="master" && \
     pecl install uploadprogress-1.0.3.1 && \
     pecl install redis-2.2.8 && \
     echo '\n' | pecl install imagick-3.3.0 && \
-    echo '\n' | pecl install memcache-3.0.8 && \
+    echo '\n' | pecl install memcache-2.2.7 && \
 
     # Enable PHP extensions (OPcache and Xdebug ini are overrided in rootfs)
     echo 'extension=uploadprogress.so' > /etc/php/conf.d/uploadprogress.ini && \
