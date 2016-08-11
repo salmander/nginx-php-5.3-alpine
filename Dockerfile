@@ -159,12 +159,15 @@ RUN export PHP_ACTIONS_VER="master" && \
 
     # Copy default php.ini and configure it
     cp php.ini-production /etc/php/php.ini && \
-    sed -i "s/^expose_php.*/expose_php = Off/" /etc/php/php.ini && \
-    sed -i "s/^;date.timezone.*/date.timezone = UTC/" /etc/php/php.ini && \
-    sed -i "s/^memory_limit.*/memory_limit = -1/" /etc/php/php.ini && \
-    sed -i "s/^max_execution_time.*/max_execution_time = 300/" /etc/php/php.ini && \
-    sed -i "s/^post_max_size.*/post_max_size = 512M/" /etc/php/php.ini && \
-    sed -i "s/^upload_max_filesize.*/upload_max_filesize = 512M/" /etc/php/php.ini && \
+    sed -i \
+        -e "s/^expose_php.*/expose_php = Off/" \
+        -e "s/^;date.timezone.*/date.timezone = UTC/" \
+        -e "s/^memory_limit.*/memory_limit = -1/" \
+        -e "s/^max_execution_time.*/max_execution_time = 300/" \
+        -e "s/^post_max_size.*/post_max_size = 512M/" \
+        -e "s/^upload_max_filesize.*/upload_max_filesize = 512M/" \
+        -e "s@^;sendmail_path.*@sendmail_path = /usr/sbin/sendmail -t -i -S opensmtpd:25@" \
+        /etc/php/php.ini && \
     echo "extension_dir = \"/usr/lib/php/modules\"" | tee -a /etc/php/php.ini && \
     echo "error_log = \"/var/log/php/error.log\"" | tee -a /etc/php/php.ini && \
 
@@ -235,7 +238,6 @@ RUN export PHP_ACTIONS_VER="master" && \
         pwgen \
         openssh \
         rsync \
-        postfix \
         patch \
         patchutils \
         mariadb-client \
