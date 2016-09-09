@@ -14,8 +14,10 @@ RUN export PHP_ACTIONS_VER="master" && \
     export WALTER_VER="1.3.0" && \
     export GO_AWS_S3_VER="v1.0.0" && \
 
-    # Install dev packages
     echo '@testing http://nl.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+    echo '@community http://nl.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+
+    # Install dev packages
     apk add --update \
         libxml2-dev \
         openssl-dev \
@@ -38,7 +40,7 @@ RUN export PHP_ACTIONS_VER="master" && \
         readline-dev \
         libedit-dev \
         net-snmp-dev \
-        tidyhtml-dev@testing \
+        tidyhtml-dev@community \
         libxslt-dev \
         imagemagick-dev \
         db-dev \
